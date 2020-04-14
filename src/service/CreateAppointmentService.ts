@@ -13,7 +13,9 @@ export default class CreateAppointmentService {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointmentDate = startOfHour(date);
 
-    if (await appointmentsRepository.isTimeReserved(appointmentDate, provider)) {
+    if (
+      await appointmentsRepository.isTimeReserved(appointmentDate, provider)
+    ) {
       throw Error('An appointment is already scheduled at this time');
     }
 
@@ -22,8 +24,8 @@ export default class CreateAppointmentService {
       date: appointmentDate,
     });
 
-    await appointmentsRepository.save(appointment)
+    await appointmentsRepository.save(appointment);
 
-    return appointment
+    return appointment;
   }
 }
