@@ -4,23 +4,23 @@ import Appointment from '../model/Appointment';
 import AppointmentsRepository from '../repository/AppointmentsRepository';
 
 interface Request {
-  provider: string;
+  providerId: string;
   date: Date;
 }
 
 export default class CreateAppointmentService {
-  public async execute({ provider, date }: Request): Promise<Appointment> {
+  public async execute({ providerId, date }: Request): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointmentDate = startOfHour(date);
 
     if (
-      await appointmentsRepository.isTimeReserved(appointmentDate, provider)
+      await appointmentsRepository.isTimeReserved(appointmentDate, providerId)
     ) {
       throw Error('An appointment is already scheduled at this time');
     }
 
     const appointment = appointmentsRepository.create({
-      provider,
+      provider_id: providerId,
       date: appointmentDate,
     });
 
