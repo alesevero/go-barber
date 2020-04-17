@@ -2,6 +2,7 @@ import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 import Appointment from '../model/Appointment';
 import AppointmentsRepository from '../repository/AppointmentsRepository';
+import AppError from '../error/AppError';
 
 interface Request {
   providerId: string;
@@ -16,7 +17,10 @@ export default class CreateAppointmentService {
     if (
       await appointmentsRepository.isTimeReserved(appointmentDate, providerId)
     ) {
-      throw Error('An appointment is already scheduled at this time');
+      throw new AppError(
+        'An appointment is already scheduled at this time',
+        400,
+      );
     }
 
     const appointment = appointmentsRepository.create({
