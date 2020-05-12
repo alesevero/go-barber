@@ -8,8 +8,14 @@ import AppointmentRepository from '@modules/appointment/infra/typeorm/repository
 import IUserRepository from '@modules/user/repository/IUserRepository';
 import UserRepository from '@modules/user/infra/typeorm/repository/UserRepository';
 
+// import IUserTokenRepository from '@modules/user/repository/IUserTokenRepository';
+
 container.registerSingleton<IAppointmentRepository>(
   'AppointmentRepository',
   AppointmentRepository,
 );
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
+// container.registerSingleton<IUserTokenRepository>(
+//   'UserTokenRepository',
+//   UserTokenRepository,
+// );
