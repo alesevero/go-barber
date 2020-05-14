@@ -1,6 +1,7 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
 import IUserRepository from '@modules/user/repository/IUserRepository';
 import ICreateUserDTO from '@modules/user/dto/ICreateUserDTO';
+import IFindAllProvidersDTO from '@modules/user/dto/IFindAllProvidersDTO';
 import User from '../entity/User';
 
 export default class UserRepository implements IUserRepository {
@@ -8,6 +9,19 @@ export default class UserRepository implements IUserRepository {
 
   constructor() {
     this.ormRepository = getRepository(User);
+  }
+
+  public async findAllProviders({
+    exceptId,
+  }: IFindAllProvidersDTO): Promise<User[]> {
+    if (exceptId) {
+      return this.ormRepository.find({
+        where: {
+          id: Not(exceptId),
+        },
+      });
+    }
+    return this.ormRepository.find();
   }
 
   public async findById(id: string): Promise<User | undefined> {

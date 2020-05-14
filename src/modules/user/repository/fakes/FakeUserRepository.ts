@@ -2,9 +2,20 @@ import IUserRepository from '@modules/user/repository/IUserRepository';
 import ICreateUserDTO from '@modules/user/dto/ICreateUserDTO';
 import User from '@modules/user/infra/typeorm/entity/User';
 import { uuid } from 'uuidv4';
+import IFindAllProvidersDTO from '@modules/user/dto/IFindAllProvidersDTO';
 
 export default class UserRepository implements IUserRepository {
   private users: User[] = [];
+
+  public async findAllProviders({
+    exceptId,
+  }: IFindAllProvidersDTO): Promise<User[]> {
+    let { users } = this;
+    if (exceptId) {
+      users = this.users.filter(user => user.id !== exceptId);
+    }
+    return users;
+  }
 
   public async findById(id: string): Promise<User | undefined> {
     return this.users.find(user => user.id === id);

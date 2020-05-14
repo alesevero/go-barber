@@ -27,6 +27,7 @@
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "no-useless-constructor": "off",
+    "no-underscore-dangle": [0, {"allow": []}],
     "@typescript-eslint/interface-name-prefix": [
       "error", { "prefixWithI": "always"}
     ],
