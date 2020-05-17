@@ -56,7 +56,6 @@ export default class AppointmentsRepository implements IAppointmentRepository {
         getYear(appointment.date) === year &&
         getDate(appointment.date) === day,
     );
-
     return appointments || [];
   }
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreateUserService from '@modules/user/service/CreateUserService';
+import { classToClass } from 'class-transformer';
 
 export default class SessionController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -8,8 +9,7 @@ export default class SessionController {
       const { name, email, password } = request.body;
       const createUserService = container.resolve(CreateUserService);
       const user = await createUserService.execute({ name, email, password });
-      delete user.password;
-      return response.json(user);
+      return response.json(classToClass(user));
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }
