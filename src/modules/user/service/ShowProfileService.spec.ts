@@ -1,5 +1,6 @@
 import FakeUserRepository from '@modules/user/repository/fakes/FakeUserRepository';
 import AppError from '@shared/error/AppError';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import CreateUserService from './CreateUserService';
 import FakeHashProvider from '../providers/hashProvider/fakes/FakeHashProvider';
 import ShowProfileService from './ShowProfileService';
@@ -8,15 +9,18 @@ let fakeHashProvider: FakeHashProvider;
 let fakeUserRepository: FakeUserRepository;
 let showProfileService: ShowProfileService;
 let createUserService: CreateUserService;
+let fakeCacheProvider: FakeCacheProvider;
 
 describe('ShowProfileService', () => {
   beforeEach(() => {
     fakeUserRepository = new FakeUserRepository();
     fakeHashProvider = new FakeHashProvider();
+    fakeCacheProvider = new FakeCacheProvider();
     showProfileService = new ShowProfileService(fakeUserRepository);
     createUserService = new CreateUserService(
       fakeUserRepository,
       fakeHashProvider,
+      fakeCacheProvider,
     );
   });
   it('should be able to show the profile', async () => {

@@ -1,6 +1,5 @@
 import FakeUserRepository from '@modules/user/repository/fakes/FakeUserRepository';
 import AuthenticateUserService from '@modules/user/service/AuthenticateUserService';
-import CreateUserService from '@modules/user/service/CreateUserService';
 import FakeHashProvider from '@modules/user/providers/hashProvider/fakes/FakeHashProvider';
 import AppError from '@shared/error/AppError';
 
@@ -13,12 +12,7 @@ describe('AuthenticateUserService', () => {
       fakeHashProvider,
     );
 
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
@@ -55,12 +49,7 @@ describe('AuthenticateUserService', () => {
       fakeHashProvider,
     );
 
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
-    await createUserService.execute({
+    await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',

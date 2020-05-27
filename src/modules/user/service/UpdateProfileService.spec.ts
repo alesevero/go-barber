@@ -1,13 +1,11 @@
 import FakeUserRepository from '@modules/user/repository/fakes/FakeUserRepository';
 import AppError from '@shared/error/AppError';
-import CreateUserService from './CreateUserService';
 import FakeHashProvider from '../providers/hashProvider/fakes/FakeHashProvider';
 import UpdateProfileService from './UpdateProfileService';
 
 let fakeHashProvider: FakeHashProvider;
 let fakeUserRepository: FakeUserRepository;
 let updateProfileService: UpdateProfileService;
-let createUserService: CreateUserService;
 
 describe('UpdateProfileService', () => {
   beforeEach(() => {
@@ -17,14 +15,10 @@ describe('UpdateProfileService', () => {
       fakeUserRepository,
       fakeHashProvider,
     );
-    createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
   });
 
   it('should be able to update the profile', async () => {
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
@@ -40,13 +34,13 @@ describe('UpdateProfileService', () => {
     expect(updatedUser.email).toBe('new@email.com');
   });
   it('should not be able to change to another user email', async () => {
-    await createUserService.execute({
+    await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
     });
 
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste2@teste.com',
       password: 'teste',
@@ -61,7 +55,7 @@ describe('UpdateProfileService', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
   it('should be able to update the password', async () => {
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
@@ -78,7 +72,7 @@ describe('UpdateProfileService', () => {
     expect(updatedUser.password).toBe('123123');
   });
   it('should not be able to update the password wihtout old password', async () => {
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
@@ -94,7 +88,7 @@ describe('UpdateProfileService', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
   it('should not be able to update the password with wrong old password', async () => {
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',

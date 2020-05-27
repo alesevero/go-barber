@@ -2,8 +2,6 @@ import FakeUserRepository from '@modules/user/repository/fakes/FakeUserRepositor
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import AppError from '@shared/error/AppError';
 import UpdateUserAvatarService from './UpdateUserAvatarService';
-import CreateUserService from './CreateUserService';
-import FakeHashProvider from '../providers/hashProvider/fakes/FakeHashProvider';
 
 describe('CreateUserService', () => {
   it('should be able to update the avatar', async () => {
@@ -14,13 +12,7 @@ describe('CreateUserService', () => {
       fakeStorageProvider,
     );
 
-    const fakeHashProvider = new FakeHashProvider();
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
@@ -58,14 +50,7 @@ describe('CreateUserService', () => {
       fakeUserRepository,
       fakeStorageProvider,
     );
-
-    const fakeHashProvider = new FakeHashProvider();
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUserService.execute({
+    const user = await fakeUserRepository.create({
       name: 'Teste da Silva',
       email: 'teste@teste.com',
       password: 'teste',
