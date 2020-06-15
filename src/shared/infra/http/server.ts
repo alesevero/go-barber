@@ -8,12 +8,14 @@ import '@shared/container';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/error/AppError';
 import { errors } from 'celebrate';
+import rateLimiter from './middlewares/rateLimiter';
 import routes from './routes';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
+app.use(rateLimiter);
 app.use(routes);
 app.use(errors);
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
